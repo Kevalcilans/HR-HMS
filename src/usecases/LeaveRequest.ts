@@ -14,6 +14,20 @@ class LeaveRequestuseCases {
     async FindAllLeads(){
         return this.Employerepo.findAll();
     }
-
+    async FindById(id:number){
+        return this.Employerepo.findById(id)
+    }
+    async DispalyallpaidLeave(id:number)
+    {
+        return this.Employerepo.FindAllPaidLeaves(id)
+    }
+    async FindByRequestId(id:number)
+    {
+        return this.Employerepo.FindRequestById(id)
+    }
+    async FindunpaidByRequestId(id:number)
+    {
+        return this.Employerepo.Findunipaidleavebyid(id)
+    }
 }
 export default LeaveRequestuseCases

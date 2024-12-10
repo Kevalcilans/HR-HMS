@@ -15,5 +15,8 @@ import { InMemoryEmployeRepository } from "../infastructure/repositories/Employe
     async Me(id:number){
         return this.Employerepo.findById(id)
     }
+    async FindAll(){
+        return this.Employerepo.findAll();
+    }
 }
  export default EmployeUsecases

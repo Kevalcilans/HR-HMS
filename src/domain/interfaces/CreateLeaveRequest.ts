@@ -1,4 +1,5 @@
-import Employe from "../entity/Employe";
+import { promises } from "dns";
+import { Employe } from "../entity/Employe";
 import { LeaveRequest } from "../entity/Leave";
 
 // export interface LeaveInterface{
@@ -15,4 +16,7 @@ export interface LeaveRequestInterface{
     CreateLeave(leveRequest:LeaveRequest):Promise<LeaveRequest>
     UpdateStatus(id:number,data:any):Promise<any>
     findAll(): Promise<LeaveRequest[]>;
+    findById(id:number): Promise<LeaveRequest[]>
+    FindAllPaidLeaves(id:number):Promise<LeaveRequest[]>
+    FindRequestById(id:number):Promise<LeaveRequest>
 }

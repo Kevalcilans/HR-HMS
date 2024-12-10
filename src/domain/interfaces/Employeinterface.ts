@@ -1,4 +1,4 @@
-import Employe from "../entity/Employe";
+import { Employe } from "../entity/Employe";
 
 export interface EmployeInterface{
   findAll(): Promise<Employe[]>;

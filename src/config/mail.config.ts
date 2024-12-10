@@ -23,15 +23,15 @@ import { degrees } from 'pdf-lib';
 
 // export default transporter
 
-
+console.log(process.env.SMTP_MAIL)
 const createTransporter = async () => {
     return nodemailer.createTransport({
       service: 'gmail', 
       secure:true,
       port:465,
       auth: {
-             user: 'rnkkhara@gmail.com',
-             pass: 'crjg tiwt dqer fmeq', 
+             user: process.env.SMTP_MAIL,
+             pass: process.env.SMTP_PASSWORD, 
         },
     });
   };

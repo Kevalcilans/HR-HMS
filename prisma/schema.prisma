@@ -1,73 +1,61 @@
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-// Model definitions
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
 model User {
-  user_id       Int         @id @default(autoincrement())
+  user_id       Int            @id @default(autoincrement())
   first_name    String
   last_name     String
-  email         String      @unique
+  email         String         @unique
   password      String
-  salt          String      @unique
-  role          String      @default("employee") // Role as string, default value "employee"
+  salt          String         @unique
+  role          String         @default("employee")
   departmentId  Int?
-  department    Department? @relation(fields: [departmentId], references: [department_id])
   designation   String?
   hire_date     DateTime
-  leave_balance Int         @default(0)
-
+  leave_balance Int            @default(0)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
   leaveRequests LeaveRequest[]
-
-  // You could add @updatedAt on date fields if needed for timestamps
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  ApprovedLeave ApprovedLeave[]
+  UnpaidLeave   UnpaidLeave[]
+  department    Department?    @relation(fields: [departmentId], references: [department_id])
 }
 
 model LeaveRequest {
-  leave_request_id Int      @id @default(autoincrement())
+  leave_request_id Int          @id @default(autoincrement())
   user_id          Int
-  leave_type_id    Int
   start_date       DateTime
   end_date         DateTime
   leave_days       Int
-  status           String   @default("pending") // Status as string, default value "pending"
+  leave_type       String?
+  halfday_type     String?
+  status           String       @default("pending")
   reason           String?
-  created_at       DateTime @default(now())
-  isUnpaid         Boolean  @default(false)
-
-  user          User           @relation(fields: [user_id], references: [user_id])
-  leaveType     LeaveType      @relation(fields: [leave_type_id], references: [leave_type_id])
-  ApprovedLeave UnpaidLeave?
+  created_at       DateTime     @default(now())
+  isUnpaid         Boolean      @default(false)
+  user             User         @relation(fields: [user_id], references: [user_id])
+  ApprovedLeave    UnpaidLeave?
 }
 
 model UnpaidLeave {
-  approved_leave_id Int      @id @default(autoincrement())
-  leave_request_id  Int      @unique
-  approved_by       Int
-  approved_date     DateTime @default(now())
+  approved_leave_id Int          @id @default(autoincrement())
+  leave_request_id  Int          @unique
+  total_days        Int?
+  userId            Int
+  approved_date     DateTime     @default(now())
   remarks           String?
-  isUnpaid          Boolean  @default(false) // Whether the leave is unpaid (default: false)
-
-  leaveRequest LeaveRequest @relation(fields: [leave_request_id], references: [leave_request_id])
-  approver     User         @relation(fields: [approved_by], references: [user_id]) // User who approved the leave
+  isUnpaid          Boolean      @default(true)
+  leaveRequest      LeaveRequest @relation(fields: [leave_request_id], references: [leave_request_id])
+  approver          User         @relation(fields: [userId], references: [user_id])
 }
 
 model Department {
   department_id Int    @id @default(autoincrement())
-  name          String
+  name          String @unique
   users         User[]
-}
-
-model LeaveType {
-  leave_type_id Int            @id @default(autoincrement())
-  leave_type    String // Leave type as string
-  leaveRequests LeaveRequest[]
 }

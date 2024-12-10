@@ -7,16 +7,18 @@ import Encryptncryptpassword from "../../helpers/encryptionpassword";
 
 export class InMemoryEmployeRepository implements EmployeInterface {
     
-  findAll(): Promise<Employe[]> {
-      throw new Error("Method not implemented.");
+ async findAll(): Promise<Employe[]> {
+      const Employee = await prisma.user.findMany({
+        include:{
+          department:true
+        }
+      });
+      return Employee
   }
   async findById(id: number): Promise<Employe | null> {
     const EmpData = await prisma.user.findUnique({
       where:{
         user_id:id
-      },
-      include:{
-        leaveRequests:true
       }
     })
     return EmpData

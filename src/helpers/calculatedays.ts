@@ -1,22 +1,37 @@
-const calculateDaysBetweenDates = (startDate:any, endDate:any) => {
-    // Parse the dates
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    // Check for valid dates
-    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-        throw new Error("Invalid date format");
+function isLastSaturday(date:any) {
+    const month = date.getMonth();
+    const nextSaturday = new Date(date.getFullYear(), month + 1, 1);
+    nextSaturday.setDate(nextSaturday.getDate() + (6 - nextSaturday.getDay()));
+    return nextSaturday.getMonth() !== month; // If the next Saturday is in the next month
+  }
+  
+  function countLeaveDays(startDate:any, endDate:any) {
+    let start = new Date(startDate);
+    let end = new Date(endDate);
+  
+    if (start > end) {
+      return 0;
     }
+  
+    let leaveDays = 0;
+  
+   
+    while (start <= end) {
+      let dayOfWeek = start.getDay(); 
+  
+     
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        leaveDays++;
+      } else if (dayOfWeek === 6 && isLastSaturday(start)) {
+        
+        leaveDays++;
+      }
+  
+      start.setDate(start.getDate() + 1);
+    }
+  
+    return leaveDays;
+  }
+  
 
-    // Calculate the difference in milliseconds
-    //@ts-ignore
-    const diffInMilliseconds = end - start;
-
-    // Convert milliseconds to days (1 day = 24 * 60 * 60 * 1000)
-    const days = diffInMilliseconds / (1000 * 60 * 60 * 24);
-
-    // Include the end date
-    return days + 1; // Adding 1 to include both start and end dates
-}
-
-export default calculateDaysBetweenDates
+  export default countLeaveDays

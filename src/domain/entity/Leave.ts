@@ -1,6 +1,5 @@
 export interface LeaveRequest {
-    user_id: number;          
-    leave_type_id: number;    
+    user_id: number;             
     start_date: Date;         
     end_date: Date;           
     leave_days: number;       

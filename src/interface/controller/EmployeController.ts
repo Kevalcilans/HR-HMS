@@ -13,15 +13,14 @@ class EmployeeController{
 
     public async CreateEmploye(req:Request,resp:Response,next?:NextFunction)
     {
-        console.log("body is here")
-        console.log(req.body)
+
         try {
             const existingUser = await this.Employe.FindByEmail(req.body);
             if (existingUser) {
               return errorResponse(resp, 'Email address already exists', [], 400);
             }
             const Employee = await this.Employe.createEmploye(req.body)
-            successResponse(resp, 'User created successfully', Employee);
+            successResponse(resp, 'User created successfully');
             
           } catch (error) {
             let customError: CustomError;
@@ -87,7 +86,7 @@ class EmployeeController{
       const _id = req.user.userId;
       try {
         const existingUser = await this.Employe.Me(_id);
-        successResponse(resp, 'user found successfully', existingUser);
+        successResponse(resp, 'user found successfully', _.omit(existingUser,['password','salt']));
         
       } catch (error) {
         let customError: CustomError;
@@ -99,6 +98,22 @@ class EmployeeController{
         }
       }
       
+    }
+    public async Alluser(req:Request,resp:Response,next:NextFunction)
+    {
+      try{
+        const findAllEmp = await this.Employe.FindAll();
+        successResponse(resp, 'user found successfully', findAllEmp.map(emp => _.omit(emp, ['password', 'salt'])));
+      }
+      catch (error) {
+        let customError: CustomError;
+        customError = new CustomError('An unexpected error occurred', 500, ErrorCodes.BAD_REQUEST);
+        if (next) {
+          next(customError);
+        } else {
+          resp.status(customError.statusCode).json(customError.getDetails());
+        }
+      }
     }
 }
 

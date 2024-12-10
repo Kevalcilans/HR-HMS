@@ -38,7 +38,7 @@ class MailController {
       const info = await transporter.sendMail(mailOptions);
 
       // Send success response
-      successResponse(resp, "Welcome email successfully sent!", { response: info.response });
+      successResponse(resp, " email successfully sent!", { response: info.response });
     } catch (error) {
       console.error("Error while sending email:", error);
 
