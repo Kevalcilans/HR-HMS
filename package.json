@@ -7,7 +7,7 @@
     "dev": "ts-node-dev --respawn src/server.ts",
     "build": "tsc",
     "serve": "node server.js",
-    "start": "node ./dist/server.js -H 68.183.88.14 -p 3011"
+    "start": "node ./dist/server.js -H 68.183.88.14 -p 8182"
   },
   "keywords": [],
   "author": "",
