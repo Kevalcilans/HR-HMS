@@ -1,32 +1,32 @@
 version: '3.9'
 
-# Define networks
+
 networks:
   app-tier:
     driver: bridge
 
-# Define volumes
+
 volumes:
   HR_HMS_DATA:
 
-# Define services
+
 services:
-  # PostgreSQL Database Service
+
   db:
     image: postgres:latest
     container_name: postgres_db
     volumes:
-      - HR_HMS_DATA:/var/lib/postgresql/data
+      - HRMS:/var/lib/postgresql/data
     ports:
       - '5432:5432'
     environment:
-      POSTGRES_DB: LeaveManagementSystem
+      POSTGRES_DB: HRMS
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     networks:
       - app-tier
 
-  # Backend Service
+
   backend:
     build: .
     container_name: backend_service

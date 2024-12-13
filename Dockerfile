@@ -19,6 +19,7 @@ EXPOSE 8182
 COPY . .
 RUN npx prisma generate
 
+RUN npx prisma migrate dev
 
 # Run build and start commands (npm run build && npm start)
 CMD ["sh", "-c", "npm run build && npm run dev"]

@@ -27,7 +27,7 @@ class LeaveRequestuseCases {
     }
     async FindunpaidByRequestId(id:number)
     {
-        return this.Employerepo.Findunipaidleavebyid(id)
+        return this.Employerepo.Findunipaidleavebyid(id);
     }
 }
 export default LeaveRequestuseCases

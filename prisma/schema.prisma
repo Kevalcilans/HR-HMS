@@ -31,7 +31,7 @@ model LeaveRequest {
   user_id          Int
   start_date       DateTime
   end_date         DateTime
-  leave_days       Int
+  leave_days       Float        // Change this from Int to Float
   leave_type       String?
   halfday_type     String?
   status           String       @default("pending")
